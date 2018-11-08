@@ -1,0 +1,21 @@
+{
+  "name": "assignment",
+  "version": "0.0.1",
+  "description": "Assignment for evaluation purposes",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "apurv singh",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.3.10"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
