@@ -24,8 +24,12 @@ addresses: [Address]
 dateOfBirth: Date
 }
 `;
+		const custom_type = {
+			Address:Address
+		}
+		
 		mongoose.connect('mongodb://localhost:27017/assignment');
-		var UserSchema = new mongoose.Schema(returnJSON(User));
+		var UserSchema = new mongoose.Schema(returnJSON(User,custom_type));
 		var UserModel = module.exports.User= mongoose.model('User',UserSchema);
 		expect(UserModel.modelName).to.be.equal('User');
 	});
@@ -39,7 +43,11 @@ describe('Inserting valid data in collection', function () {
 			email: 'agent@agent.com',
 			name : 'James Bond',
 			age :21,
-			dateOfBirth : new Date('1970-01-01')
+			dateOfBirth : new Date('1970-01-01'),
+			addresses :{
+				city : 'Ranchi',
+				state : 'Jharkhand'
+			}
 		}
 		
 		
@@ -55,6 +63,7 @@ describe('Inserting valid data in collection', function () {
 	})
 })
 
+/*
 describe('Inserting invalid data in collection', function () {
 	
 	// Invalid scenarios to test are :
@@ -120,3 +129,4 @@ describe('Inserting invalid data in collection', function () {
 		});
 	});
 })
+*/
