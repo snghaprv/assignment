@@ -65,7 +65,6 @@ function returnJSON(string,custom_type = {}) {
   }
   
   try{
-      console.log(f_object)
 	  JSON.stringify(f_object);
 	  return f_object;
   } catch(e){

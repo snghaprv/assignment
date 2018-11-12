@@ -1,0 +1,16 @@
+var returnJSON = require('../index.js');
+var schema = require('./schemas.js')
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/assignment');
+//new mongoose.Schema(returnJSON(User,custom_type));
+//mongoose.model('User',UserSchema);
+
+
+Object.keys(schema).forEach(function (key) {
+	var type_def = schema[key].split(`\n`)[1];
+	var is_model_defination = type_def.slice(-8,-2) == '@model' ? true : false;
+	if(is_model_defination){
+		mongoose.model('User',new mongoose.Schema(returnJSON(schema[key],schema)));
+	}
+});
