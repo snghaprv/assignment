@@ -33,10 +33,10 @@ function returnJSON(string,custom_type = {}) {
     var r_object = {[key_name[0]]: {}}
     
     var is_array =key_name[1].trim().indexOf('[') == 0 && key_name[1].trim().indexOf(']') ==key_name[1].trim().length-1
-      
+      // Finding the correct data type from the string. Different handling if the string has '[' and ']' .
       var data_type = is_array ? key_name[1].split('[')[1].split('@unique')[0].split('!')[0].split(']')[0].trim().slice(0,key_name[1].split('@unique')[0].split('!')[0].split(']')[0].length) : key_name[1].split('@unique')[0].split('!')[0].trim();
     
-      
+      // If data type is from list of default data types. else checking from the object of custom data types sent.
       if(TYPE_MAP[data_type]){
         r_object[[key_name[0]]]['type'] =TYPE_MAP[data_type] ;
       } else if (custom_type[data_type]){
@@ -44,14 +44,15 @@ function returnJSON(string,custom_type = {}) {
 	      } else {
 		      throw new Error("data type is not recognised");
 	      }
-	      
+	      // If the field is an array then converting into array.
       if(is_array){
 	      r_object[[key_name[0]]] = [r_object[[key_name[0]]]]
       }
-      
+      // Checking for required constraint.
       if(key_name[1].indexOf('!')>-1){
         r_object[[key_name[0]]]['required'] = true;
       }
+      // Checking for unique constraint.
       if(key_name[1].indexOf('@unique')>-1){
         r_object[[key_name[0]]]['index'] = {unique:true};
       }
