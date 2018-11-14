@@ -1,9 +1,8 @@
 
 var expect = require('chai').expect;
 var returnJSON = require('../index.js');
-
-
 var mongoose = require('mongoose');
+var config = require('../config/config.js')
 
 describe('Creating Model from type string', function () {
 	it('Should create model in mongodb', function () {
@@ -28,7 +27,7 @@ dateOfBirth: Date
 			Address:Address
 		}
 		
-		mongoose.connect('mongodb://localhost:27017/assignment');
+		mongoose.connect(config.MONGODB_URL);
 		var UserSchema = new mongoose.Schema(returnJSON(User,custom_type));
 		var UserModel = module.exports.User= mongoose.model('User',UserSchema);
 		expect(UserModel.modelName).to.be.equal('User');
