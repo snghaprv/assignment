@@ -32,23 +32,21 @@ function returnJSON(string,custom_type = {}) {
       
     var r_object = {[key_name[0]]: {}}
     
+    var is_array =key_name[1].trim().indexOf('[') == 0 && key_name[1].trim().indexOf(']') ==key_name[1].trim().length-1
+      
+      var data_type = is_array ? key_name[1].split('[')[1].split('@unique')[0].split('!')[0].split(']')[0].trim().slice(0,key_name[1].split('@unique')[0].split('!')[0].split(']')[0].length) : key_name[1].split('@unique')[0].split('!')[0].trim();
     
-   if( key_name[1].trim().indexOf('[') == 0 && key_name[1].trim().indexOf(']') ==key_name[1].trim().length-1 ){
-        
-        var custom_key = key_name[1].slice(2,-1);
-        if(custom_type[custom_key]){
-	        r_object[[key_name[0]]] = [returnJSON(custom_type[custom_key])]
-        } else{
-	        throw new Error("Custom type is not recognised");
-        }
-   
-   } else {
-      var data_type = key_name[1].split('!')[0].trim();
-    
+      
       if(TYPE_MAP[data_type]){
         r_object[[key_name[0]]]['type'] =TYPE_MAP[data_type] ;
-      } else {
-	      throw new Error("Basic type is not recognised");
+      } else if (custom_type[data_type]){
+		      r_object[[key_name[0]]] = returnJSON(custom_type[data_type])
+	      } else {
+		      throw new Error("data type is not recognised");
+	      }
+	      
+      if(is_array){
+	      r_object[[key_name[0]]] = [r_object[[key_name[0]]]]
       }
       
       if(key_name[1].indexOf('!')>-1){
@@ -57,9 +55,7 @@ function returnJSON(string,custom_type = {}) {
       if(key_name[1].indexOf('@unique')>-1){
         r_object[[key_name[0]]]['index'] = {unique:true};
       }
-    
-    }
-    
+      
     f_object[[key_name[0]]] = r_object[key_name[0]];
    
   }

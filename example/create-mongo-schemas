@@ -8,6 +8,7 @@ Object.keys(schema).forEach(function (key) {
 	var type_def = schema[key].split(`\n`)[1];
 	var is_model_defination = type_def.slice(-8,-2) == '@model' ? true : false;
 	if(is_model_defination){
+		console.log(returnJSON(schema[key],schema))
 		mongoose.model(key,new mongoose.Schema(returnJSON(schema[key],schema)));
 	}
 });

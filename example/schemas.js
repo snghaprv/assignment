@@ -8,10 +8,10 @@ const User = `
 type User @model {
 id: String! @unique
 email: String! @unique
-name: String!
+name: [String! @unique]
 age: Int
-addresses: [Address]
 dateOfBirth: Date
+addresses: [Address! @unique]
 }
 `;
 
@@ -19,3 +19,4 @@ module.exports = {
 	Address:Address,
 	User: User
 }
+//addresses: [Address]

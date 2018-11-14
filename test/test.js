@@ -62,7 +62,6 @@ describe('Inserting valid data in collection', function () {
 	})
 })
 
-/*
 describe('Inserting invalid data in collection', function () {
 	
 	// Invalid scenarios to test are :
@@ -76,7 +75,11 @@ describe('Inserting invalid data in collection', function () {
 			email: 'agent@agent1.com',
 			name : 'James Bond',
 			age :21,
-			dateOfBirth : 'abc'
+			dateOfBirth : 'abc',
+			addresses :{
+				city : 'Ranchi',
+				state : 'Jharkhand'
+			}
 		}
 		
 		
@@ -93,7 +96,11 @@ describe('Inserting invalid data in collection', function () {
 			email: 'agent@agent1.com',
 			name : 'James Bond',
 			age :21,
-			dateOfBirth : new Date('1990-01-01')
+			dateOfBirth : new Date('1990-01-01'),
+			addresses :{
+				city : 'Ranchi',
+				state : 'Jharkhand'
+			}
 		}
 		//ValidationError
 		
@@ -111,7 +118,11 @@ describe('Inserting invalid data in collection', function () {
 			id : 'agent_009',
 			name : 'James Bond',
 			age :21,
-			dateOfBirth : new Date('1990-01-01')
+			dateOfBirth : new Date('1990-01-01'),
+			addresses :{
+				city : 'Ranchi',
+				state : 'Jharkhand'
+			}
 		}
 		//ValidationError
 		
@@ -123,9 +134,8 @@ describe('Inserting invalid data in collection', function () {
 	})
 	
 	after(function(done){
-		mongoose.connection.db.dropDatabase(function(){
+		mongoose.connection.db.dropDatabase('User',function(){
 			mongoose.connection.close(done);
 		});
 	});
 })
-*/
