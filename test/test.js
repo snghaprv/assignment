@@ -4,8 +4,9 @@ var returnJSON = require('../index.js');
 var mongoose = require('mongoose');
 var config = require('../config/config.js')
 
-describe('Creating Model from type string', function () {
-	it('Should create model in mongodb', function () {
+describe('Creating Model and verifying models with valid and invalid data. ', function () {
+	
+	it('Should create model in mongodb', function (done) {
 		
 		const Address = `
 type Address {
@@ -31,11 +32,9 @@ dateOfBirth: Date
 		var UserSchema = new mongoose.Schema(returnJSON(User,custom_type));
 		var UserModel = module.exports.User= mongoose.model('User',UserSchema);
 		expect(UserModel.modelName).to.be.equal('User');
+		done();
 	});
-});
-
-describe('Inserting valid data in collection', function () {
-	it('Should enter data in collection.', function () {
+	it('Should enter data in collection.', function (done) {
 		// Test case: Correct data is inserted properly in collection.
 		var valid_data = {
 			id : 'agent_007',
@@ -57,18 +56,15 @@ describe('Inserting valid data in collection', function () {
 			};
 			
 			expect(err).to.be.equal(null);
+			done();
 			
 		});
 	})
-})
-
-describe('Inserting invalid data in collection', function () {
-	
 	// Invalid scenarios to test are :
 	// 1. Invalid data-type.
 	// 2. Duplicate data for unique field.
 	// 3. Missing data for required field.
-	it('Should not allow to enter invalid dateOfBirth .', function () {
+	it('Should not allow to enter invalid dateOfBirth .', function (done) {
 		
 		var valid_data = {
 			id : 'agent_008',
@@ -87,9 +83,10 @@ describe('Inserting invalid data in collection', function () {
 			if (err) {
 				expect(err.name).to.be.equal('ValidationError');
 			};
+			done();
 		});
 	})
-	it('Should not allow to enter duplicate email .', function () {
+	it('Should not allow to enter duplicate email .', function (done) {
 		
 		var valid_data = {
 			id : 'agent_007',
@@ -109,10 +106,11 @@ describe('Inserting invalid data in collection', function () {
 				expect(err.code).to.be.equal(11000);
 			};
 			//console.log(data);
+			done();
 		});
 	})
 	
-	it('Should not allow to enter data without email .', function () {
+	it('Should not allow to enter data without email .', function (done) {
 		
 		var valid_data = {
 			id : 'agent_009',
@@ -130,12 +128,16 @@ describe('Inserting invalid data in collection', function () {
 			if (err) {
 				expect(err.name).to.be.equal('ValidationError');
 			};
+			done();
+		});
+	})
+	/* Cleaning up by deleting the database from mongodb.
+	* If want to verify data in mongodb manually then comment out following 'after' hook.
+	* */
+	after(function(done){
+		mongoose.connection.db.dropDatabase(config.MONGODB_COLLECTION,function(){
+			mongoose.connection.close(done)
 		});
 	})
 	
-	after(function(done){
-		mongoose.connection.db.dropDatabase('User',function(){
-			mongoose.connection.close(done);
-		});
-	});
-})
+});
